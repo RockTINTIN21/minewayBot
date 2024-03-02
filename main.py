@@ -1,6 +1,6 @@
+import configparser
 import disnake
 from disnake.ext import commands
-
 
 bot = commands.Bot(command_prefix="/", intents=disnake.Intents.all())
 
@@ -15,6 +15,8 @@ async def on_member_join(member):
     )
     embed.set_thumbnail(url=member.author.display_avatar.url)
     await channel.send(embed=embed)
+
+
 @bot.event
 async def on_ready():
     print("Бот готов!")
@@ -23,4 +25,10 @@ async def on_ready():
 bot.load_extension('cogs.modals')
 bot.load_extension('cogs.clear')
 bot.load_extension('cogs.reroll')
-bot.run("MTEwMjU3MjMxMzk1NTgwNzI2Mg.GuHuvq.eC_dZUN0gUkIl5C2YYp-wfCffXpmPv-K9w9RBs")
+
+config = configparser.ConfigParser()
+config.read('.env')
+
+BOT_TOKEN = config['DEFAULT']['BOT_TOKEN']
+
+bot.run(BOT_TOKEN)
